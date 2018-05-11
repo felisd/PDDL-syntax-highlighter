@@ -1,0 +1,71 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - pddl
+scope: source.example-c
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+
+  main:
+    # The main context is the initial starting point of our syntax.
+    # Include other contexts from here (or specify them directly).
+    - include: titles
+    - include: requirements
+    - include: keywords
+    - include: subkeywords
+    - include: operators
+    - include: constraints
+    - include: numbers
+    - include: types
+    - include: variables
+
+  titles:
+    - match: '\b(define|domain|problem)\b'
+      scope: keyword.declaration.example-c
+
+  requirements:
+    - match: ':\b(strips|typing|negative-preconditions|disjunctive-preconditions|equality|existential-preconditions|universal-preconditions|quantified-preconditions|conditional-effects|fluents|numeric-fluents|adl|durative-actions|duration-inequalities|continuous-effects|derived-predicates|timed-initial-literals|preferences|constraints|action-costs)\b'
+      scope: constant.numeric.example-c
+
+  keywords:
+    - match: '\(:\b(domain|problem|requirements|types|constants|predicates|functions|action|durative-action|init|objects|metric|goal|constraints)\b'
+      scope: keyword.declaration.example-c
+
+  subkeywords:
+    - match: ':\b(parameters|precondition|effect|duration|condition)\b'
+      scope: keyword.declaration.example-c
+
+  operators:
+    - match: '\b(not|and|assign|increase|decrease|minimize|maximize)'
+      scope: keyword.operator.example-c
+
+  constraints:
+    - match: '\b(forall|at end|always|sometime|within|at-most-once|sometime-after|sometime-before|always-within|hold-during|hold-after)'
+      scope: variable.language.example-c
+
+  numbers:
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.example-c
+
+  types:
+    - match: \ \-\ ([A-Za-z][A-Za-z0-9_]+)
+      scope: variable.annotation.example-c
+
+  variables:
+    - match: \?([A-Za-z][A-Za-z0-9_]+)
+      scope: variable.parameter.example-c
+
+  comments:
+    # Comments begin with a ';' and finish at the end of the line.
+    - match: ';'
+      scope: punctuation.definition.comment.example-c
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line.semi-colon.example-c
+        - match: $\n?
+          pop: true
